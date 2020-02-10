@@ -8,6 +8,24 @@ Works with:
 
 * Virtual box
 * Docker for windows (don't let docker for windows install kubernetes)
+* Hyper V
+
+### Install cluster
+
+To install a cluster, type the following in e.g. powershell (open as admin):
+
+```shell
+$ minikube start --vm-driver=hyperv # or choose virtualbox, docker etc.
+```
+
+When it's done, you should enable ingress:
+
+```shell
+$ minikube addons enable ingress
+```
+
+Ingress is a load balancer object in Kubernetes, which also can assign external ip addresses to services.
+
 
 ## Check your configuration
 
@@ -81,13 +99,13 @@ A deployment can be configured to automatically delete stopped or exited Pods an
 ### Create a pod
 
 ```shell
-$ kubectl create deployment nginx --image=nginx:1.7.9
-deployment.apps/nginx created
+$ kubectl create deployment web --image=k8s.gcr.io/echoserver:1.4
+deployment.apps/web created
 ```
 
 The `create`-command is great for imperative testing, and getting something up and running fast.
 
-It creates a _deployment_ named `nginx`, which creates a _replicaset_, which starts a _pod_ using the docker image `nginx`.
+It creates a _deployment_ named `web`, which creates a _replicaset_, which starts a _pod_ using the docker image `echoserver`.
 
 Just so you know what we're talking about, you can check the objects you've created with `get <object>`, either one at a time, or all-together like below:
 
@@ -99,9 +117,7 @@ $ kubectl get deployment,replicaset,pod    # NB: no whitespace in the comma-sepa
 
 #### Testing access to our Pod (optional)
 
-Enable ingress via minikube.
-
-Run the following command to tunnel traffic (requires admin rights):
+Run the following command to tunnel traffic (requires admin rights). This simulates the actual load balancer and routes traffic from our local maching into the cluster (exit by press ctrl + c):
 
 ```shell
 $ minikube tunnel
@@ -112,35 +128,45 @@ To illustrate that we actually have a functioning web-server running in our pod,
 First use the following command to create a `service` for your `deployment`:
 
 ```shell
-$ kubectl expose deployment nginx --port 80 --type NodePort
-nginx exposed
+$ kubectl expose deployment web --port 8080 --type LoadBalancer
+web exposed
 ```
 
-Get the `service` called `nginx` and note down the NodePort:
+Get the `service` called `web` and note down the LoadBalancer:
 
 ```shell
-$ kubectl get service nginx
-NAME    TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
-nginx   NodePort   10.96.223.218   10.96.223.218 80:32458/TCP   12s
+$ kubectl get service web
+NAME  TYPE          CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+web   LoadBalancer  10.96.223.218   10.96.223.218 8080:32458/TCP   12s
 ```
 
-Can open service by:
+The external ip is a cluster ip and can't be accessed directly. The 'tunnel' command routes traffic from the 'minikube ip' into the cluster.
 
-minikube service nginx
-
-
-In this example, Kubernetes has chosen port `32458`.
-
-Finally, look up the IP address of a node in the cluster with:
+You can get the minikube ip by typing the command:
 
 ```shell
-$ kubectl get nodes -o wide           # The -o wide flag makes the output more verbose, i.e. to include the IPs
-NAME    STATUS   . . . INTERNAL-IP  EXTERNAL-IP     . . .
-node1   Ready    . . . 10.123.0.8   <none>          . . .
+$ minikube ip
+172.17.221.78    # NB: your ip may be different
 ```
 
-Since your `service` is of type `NodePort` it will be exposed on _any_ of the nodes,
-on the port from before, so choose one of the `EXTERNAL-IP`'s,
-and point your web browser to the URL `<EXTERNAL-IP>:<PORT>`. Alternatively, if you
-use e.g. curl from within the training infrastructure, you should use the <INTERNAL-IP>
-address.
+Now open a browser and point it to: 172.17.221.78:32458
+
+Or open it directly in the browser by typing:
+
+```shell
+$ minikube service web
+```
+
+### Cleanup
+
+To clean up what we just deployed, start by removing the service:
+
+```shell
+$ kubectl delete service web
+```
+
+Then delete the deployment:
+
+```shell
+$ kubectl delete deployment web
+```
