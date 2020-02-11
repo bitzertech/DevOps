@@ -26,7 +26,6 @@ $ minikube addons enable ingress
 
 Ingress is a load balancer object in Kubernetes, which also can assign external ip addresses to services.
 
-
 ## Check your configuration
 
 View clusters and context's:
@@ -34,7 +33,6 @@ View clusters and context's:
 ```shell
 $ kubectl config view
 ```
-
 
 To view nodes in the cluster, type:
 
@@ -109,13 +107,13 @@ It creates a _deployment_ named `web`, which creates a _replicaset_, which start
 
 Just so you know what we're talking about, you can check the objects you've created with `get <object>`, either one at a time, or all-together like below:
 
-```shell
+```bash
 $ kubectl get deployment,replicaset,pod    # NB: no whitespace in the comma-separated list
 ```
 
 > A ReplicaSet is something which deals with the number of copies of this pod.
 
-#### Testing access to our Pod (optional)
+### Testing access to our Pod (optional)
 
 Run the following command to tunnel traffic (requires admin rights). This simulates the actual load balancer and routes traffic from our local maching into the cluster (exit by press ctrl + c):
 

@@ -1,5 +1,7 @@
 # Kubernetes
-## K8s bricks
+
+## K8s building bricks
+
 Kubernetes is configured via various objects, see below:
 
 ![K8s bricks](Images/k8s-bricks.png "Kubernetes bricks")
@@ -14,7 +16,7 @@ A POD is the smallest managable execution object in K8.
 * Containers can communication
 * Only put highly related containers together in a POD
 * IP addressable with ports (like VM)
-* PODs always see network as a flat network (no NAT)
+* PODs always see network as a flat network (no NAT), see below
 
 ![POD](Images/k8s-pod.png "POD")
 
@@ -30,5 +32,5 @@ Namespaces do not share anything between them, which is important to know, and t
 ## Exercise 1
 
 1. Check your configuration
-2. Setup a namespace
+2. Setup a namespace (optional)
 3. Setup a simple pod
