@@ -46,7 +46,7 @@ If you add the `-o wide` parameters to the above command, you will also see the 
 $ kubectl get nodes -o wide
 ```
 
-**Note:** On local kubernetes clusters, you'll see master and worker nodes. On clusters provided by a service provider, only worker nodes will be see.
+**Note:** On local kubernetes clusters, you'll see master and worker nodes. On clusters provided by a service provider, only worker nodes will be shown.
 
 ## Namespaces
 
@@ -74,7 +74,7 @@ $ kubectl get pods
 To overwrite the default namespace for your current `context`, run:
 
 ```shell
-$ kubectl config set-context $(kubectl config current-context) --namespace=<my-namespace>
+$ kubectl config set-context $(kubectl config current-context) --namespace=my-namespace
 Context "<your current context>" modified.
 ```
 
@@ -152,7 +152,7 @@ Now open a browser and point it to: 172.17.221.78:32458
 Or open it directly in the browser by typing:
 
 ```shell
-$ minikube service web
+$ minikube service web -n my-namespace
 ```
 
 ### Cleanup
