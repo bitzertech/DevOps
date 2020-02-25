@@ -8,7 +8,7 @@ Kubernetes is configured via various objects, see below:
 
 ## The POD model
 
-A POD is the smallest managable execution object in K8.
+A POD is the smallest managable execution object in K8s.
 
 * Supports scaling, lifecycle, scheduling to worker nodes
 * Consists of one or more containers
