@@ -1,14 +1,8 @@
-# Exercise 3
+# Exercise 3 - Make MyMovies MVC application run in Kubernetes
 
-## Make MyMovies MVC application run in Kubernetes
+## Making minikube and docker share environment
 
-The MyMovies solution found in the MyMovies subdirectory is ready to be launced in Kubernetes.
-
-> _*NOTE*_ There is a tutorial to follow the creation of the MyMovies MVC application for those interested in more background information
-
-Assuming that minikube is running, and that Ingress addon has been enabled as shown in the previous exercises, we need a few things to get our setup running.
-
-First we need to make sure minikube and docker are working in the same environment.
+First we need to make sure minikube and docker are working in the same environment, so locally built docker images are available to minikube.
 
 ```powershell
 minikube docker-env --shell powershell
@@ -25,36 +19,43 @@ $Env:MINIKUBE_ACTIVE_DOCKERD = "minikube"
 # & minikube -p minikube docker-env | Invoke-Expression
 ```
 
-Copy the last line from your console (excluding the hashtag, but including the ampersand) and execute it from the console you wish to contine this tutorial from.
+Copy the last line from your console (excluding the hashtag, but including the ampersand) and execute it from the console you wish to contine this tutorial from:
 
-The IP address part of $Env:DOCKER_HOST should be entered in C:\Windows\System32\drivers\etc\hosts for dev.mymovies.local
+```powershell
+& minikube -p minikube docker-env | Invoke-Expression
+```
 
-## Kubernetes parts
+## Register DNS name for kubernetes node
 
-We need to define the following parts in a K8s setup:
+The IP address part of $Env:DOCKER_HOST should be entered in C:\Windows\System32\drivers\etc\hosts for dev.mymovies.local:
 
-1. A deployment for the database.
-1. A service for the database.
-1. A deployment for the MVC App.
-1. A service for the MVC App.
-1. An exposure for our application to the world around us.
+```config
+# localhost name resolution is handled within DNS itself.
+#	127.0.0.1       localhost
+#	::1             localhost
+192.168.99.105 dev.mymovies.local
+# End of section
+```
 
-A deployment describes a container that should be deployed in one or more instances.
+## Create namespace for application
 
-A service describes an interface to a deployment to be used by other services or deployments.
+We wil create a namespace for our solution and make it the default namespace for our context. The namespace used in the yaml files is ns-mymovies:
 
-The exposing of parts of our application is also called an Ingress for inbound traffic. The Ingress is only the description of which kind of traffic is accepted from the outside. The Ingress definition is working with an Ingress controller to route traffic from the outside to the intended services inside the kubernetes cluster. An Ingress controller is usually part of the infrastructure provided by the hosting provider, and not something handled by ouselves as developers.
+```powershell
+kubectl create namespace ns-mymovies
 
-SSL certificates also has to be handled by the Ingress in a Kubernetes setup.
+kubectl config set-context $(kubectl config current-context) --namespace=ns-mymovies
+```
 
-These K8s parts could be defined in one collective file, or one file per part.
-In this example there is one file for each part. To start with certificates, run two commands to register certificate as secrets:
+## Building the application
 
-Build the MVC App container:
+Let's build and tag the MVC App container:
 
 ```powershell
 docker build -t mymoviesmvc:v1 -f ./MyMovies/MyMoviesMvc.dockerfile .
 ```
+
+## Installing certificate
 
 Install our self-signed certificate:
 
@@ -62,6 +63,8 @@ Install our self-signed certificate:
 kubectl create secret tls tls-certificate --key MyMovies/cert/MyMovies.key --cert MyMovies/cert/MyMovies.crt
 kubectl create secret generic tls-rootca --from-file=MyMovies/cert/RootCA.crt
 ```
+
+## Installing deployments, services and ingress
 
 Install our deployments, our services and our ingress:
 
@@ -72,6 +75,8 @@ kubectl create -f MyMovies/kubernetes/mvc-deployment.yaml
 kubectl create -f MyMovies/kubernetes/mvc-service.yaml
 kubectl create -f MyMovies/kubernetes/mvc-ingress.yaml
 ```
+
+## Verify access to the application
 
 Within a few seconds, the deployments should have launched pods to reflect our wanted scenario, we can inspect this:
 
@@ -144,11 +149,10 @@ Annotations:
 Events:                                            <none>
 ```
 
-```powershell
-```
+Enough theory, let's see if it is running. Head over to <https://dev.mymovies.local> and you should see something like this:
+![MyMovies](Images/mymovies.png)
 
-```powershell
-```
+Feel free to play around and add movies or modify/delete some of the existing.
 
-```powershell
-```
+> _*NOTE*_ the database is hosted within the PostgreSQL container, so data is NOT persisted across container restarts. This is NOT the way to gfo about a production setup, but for this demo, it will suffice.
+
