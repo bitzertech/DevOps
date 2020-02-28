@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+
+  reverseproxy:
+    build:
+      context: ./Nginx
+      dockerfile: ../Nginx.dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+
+  mvc:
+    depends_on:
+      - reverseproxy
+      - db
+    build:
+      context: .
+      dockerfile: ./MyMoviesMvc.dockerfile
+    expose:
+      - "5000"
+    restart: always
+  db:
+    image: postgres:12.1-alpine
+    environment:
+      POSTGRES_PASSWORD: "moviedbsecretpassword"
