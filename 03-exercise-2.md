@@ -18,11 +18,11 @@ spec:
       labels:
         app: frontend
     spec:
-    containers:
-    - name: echoserver
-      image: k8s.gcr.io/echoserver:1.4
-      ports:
-      - containerPort: 8080
+      containers:
+      - name: echoserver
+        image: k8s.gcr.io/echoserver:1.4
+        ports:
+        - containerPort: 8080
 ```
 
 Apply the deployment with the command:
