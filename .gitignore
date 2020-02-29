@@ -1,1 +1,3 @@
-﻿MyMovies/src/MyMoviesMvc/obj
+﻿**/obj
+**/bin
+.vscode
