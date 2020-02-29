@@ -1,5 +1,23 @@
 # Kubernetes
 
+Kubernetes (K8s) is an orchestration tool with the following features:
+* Availability - scale as defined in your desired state
+* Resilience - if a container exits/dies, a new one is created
+* Storage - Local, NFS, iSCSI, GCEP, AWS EBS and more
+* Deployments - with Canary pattern
+* Scheduling - with Resource Limitations
+* Updates - with Rolling Updates
+* Networking and Cluster DNS
+* Service Discovery
+* Ingress routing and load balancing across replicas
+* Security - with RBAC and network policies
+
+Overview of a K8s cluster:
+
+![K8s cluster](https://d33wubrfki0l68.cloudfront.net/7016517375d10c702489167e704dcb99e570df85/7bb53/images/docs/components-of-kubernetes.png "Kubernetes cluster")
+
+Ref: https://kubernetes.io/docs/concepts/overview/components/
+
 ## K8s building bricks
 
 Kubernetes is configured via various objects, see below:

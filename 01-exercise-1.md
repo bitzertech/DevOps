@@ -2,13 +2,21 @@
 
 ## Install kubernetes cluster
 
-Using minikube is the easiest.
+Using minikube is the easiest way to lean about Kubernetes.
 
 Works with:
 
 * Virtual box
 * Docker for windows (don't let docker for windows install kubernetes)
 * Hyper V
+
+You can install minikube and kubectl with **Scoop** - a command line installer: https://scoop.sh/
+
+When Scoop is installed, install minikube and kubectl with:
+```shell
+scoop install minikube
+scoop install kubectl
+```
 
 ### Install cluster
 
@@ -44,9 +52,12 @@ If you add the `-o wide` parameters to the above command, you will also see the 
 
 ```shell
 $ kubectl get nodes -o wide
+
+NAME       STATUS   ROLES    AGE   VERSION   INTERNAL-IP     EXTERNAL-IP   OS-IMAGE              KERNEL-VERSION   CONTAINER-RUNTIME
+minikube   Ready    master   27h   v1.17.3   172.17.253.26   <none>        Buildroot 2019.02.9   4.19.94          docker://19.3.6
 ```
 
-**Note:** On local kubernetes clusters, you'll see master and worker nodes. On clusters provided by a service provider, only worker nodes will be shown.
+>**Note:** On local kubernetes clusters, you'll see master and worker nodes. On clusters provided by a service provider, only worker nodes will be shown. Minikube only have a master node.
 
 ## Namespaces
 
