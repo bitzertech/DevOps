@@ -24,6 +24,7 @@ Copy the last line from your console (excluding the hashtag, but including the a
 ```powershell
 & minikube -p minikube docker-env | Invoke-Expression
 ```
+>This will allow the that powershell prompt (and only that one) to access docker within minikube.
 
 ## Register DNS name for kubernetes node
 
@@ -154,5 +155,5 @@ Enough theory, let's see if it is running. Head over to <https://dev.mymovies.lo
 
 Feel free to play around and add movies or modify/delete some of the existing.
 
-> _*NOTE*_ the database is hosted within the PostgreSQL container, so data is NOT persisted across container restarts. This is NOT the way to gfo about a production setup, but for this demo, it will suffice.
+> _*NOTE*_ the database is hosted within the PostgreSQL container, so data is NOT persisted across container restarts. This is NOT the way to go about a production setup, but for this demo, it will suffice.
 

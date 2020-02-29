@@ -140,7 +140,7 @@ web   LoadBalancer  10.96.223.218   10.96.223.218 8080:32458/TCP   12s
 
 The external ip is a cluster ip and can't be accessed directly. The 'tunnel' command routes traffic from the 'minikube ip' into the cluster.
 
-You can get the minikube ip by typing the command:
+You can get the minikube ip by typing the command (needs admin rights):
 
 ```shell
 $ minikube ip
