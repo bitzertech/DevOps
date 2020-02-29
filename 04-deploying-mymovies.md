@@ -6,7 +6,7 @@ For the example we use an app called MyMovies. The application is avilable in th
 
 The application uses a PostgreSQL database and self-signed SSL certificates.
 
-For more background information and a step-by-step introduction to the creation of this application, follow the tutorial at ???
+For more background information and a step-by-step introduction to the creation of this application, follow the [MvcTutorial](https://github.com/bitzertech/MvcTutorial)
 
 ## Kubernetes parts in this demo
 
