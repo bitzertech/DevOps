@@ -46,13 +46,13 @@ spec:
 The same would be in docker command for a single container:
 
 ```shell
-$ docker run -d --restart=always --name webserver -p 80:80 nginx
+docker run -d --restart=always --name webserver -p 80:80 nginx
 ```
 
 and in kubectl:
 
 ```shell
-$ kubectl create webserver --image=nginx --port=80
+kubectl create webserver --image=nginx --port=80
 ```
 
 ### Labels
@@ -139,5 +139,5 @@ With deployments you can:
 To deploy a yaml file, the following command is used:
 
 ```bash
-$ kubectl create/apply/delete -f my-deployment.yaml  # you can add '--dry-run=true' to let kubectl verify the file
+kubectl create/apply/delete -f my-deployment.yaml  # you can add '--dry-run=true' to let kubectl verify the file
 ```
