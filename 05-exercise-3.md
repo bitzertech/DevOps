@@ -5,7 +5,7 @@
 First we need to make sure minikube and docker are working in the same environment, so locally built docker images are available to minikube.
 
 ```powershell
-minikube docker-env --shell powershell
+$ minikube docker-env --shell powershell  # requires Docker-desktop or Docker-toolbox to be installed
 ```
 
 An output like the following is presented:
@@ -28,7 +28,7 @@ Copy the last line from your console (excluding the hashtag, but including the a
 
 ## Register DNS name for kubernetes node
 
-The IP address part of $Env:DOCKER_HOST should be entered in C:\Windows\System32\drivers\etc\hosts for dev.mymovies.local:
+The IP address part of $Env:DOCKER_HOST should be entered in C:\Windows\System32\drivers\etc\hosts for dev.mymovies.local (for having SSL certificate and ingress working correctly):
 
 ```config
 # localhost name resolution is handled within DNS itself.
@@ -43,9 +43,9 @@ The IP address part of $Env:DOCKER_HOST should be entered in C:\Windows\System32
 We wil create a namespace for our solution and make it the default namespace for our context. The namespace used in the yaml files is ns-mymovies:
 
 ```powershell
-kubectl create namespace ns-mymovies
+$ kubectl create namespace ns-mymovies
 
-kubectl config set-context $(kubectl config current-context) --namespace=ns-mymovies
+$ kubectl config set-context $(kubectl config current-context) --namespace=ns-mymovies
 ```
 
 ## Building the application
@@ -53,7 +53,7 @@ kubectl config set-context $(kubectl config current-context) --namespace=ns-mymo
 Let's build and tag the MVC App container:
 
 ```powershell
-docker build -t mymoviesmvc:v1 -f ./MyMovies/MyMoviesMvc.dockerfile .
+$ docker build -t mymoviesmvc:v1 -f ./MyMovies/MyMoviesMvc.dockerfile ./MyMovies
 ```
 
 ## Installing certificate
@@ -61,8 +61,9 @@ docker build -t mymoviesmvc:v1 -f ./MyMovies/MyMoviesMvc.dockerfile .
 Install our self-signed certificate:
 
 ```powershell
-kubectl create secret tls tls-certificate --key MyMovies/cert/MyMovies.key --cert MyMovies/cert/MyMovies.crt
-kubectl create secret generic tls-rootca --from-file=MyMovies/cert/RootCA.crt
+$ kubectl create secret tls tls-certificate --key MyMovies/cert/MyMovies.key --cert MyMovies/cert/MyMovies.crt
+
+$ kubectl create secret generic tls-rootca --from-file=MyMovies/cert/RootCA.crt
 ```
 
 ## Installing deployments, services and ingress
@@ -70,11 +71,11 @@ kubectl create secret generic tls-rootca --from-file=MyMovies/cert/RootCA.crt
 Install our deployments, our services and our ingress:
 
 ```powershell
-kubectl create -f MyMovies/kubernetes/db-deployment.yaml
-kubectl create -f MyMovies/kubernetes/db-service.yaml
-kubectl create -f MyMovies/kubernetes/mvc-deployment.yaml
-kubectl create -f MyMovies/kubernetes/mvc-service.yaml
-kubectl create -f MyMovies/kubernetes/mvc-ingress.yaml
+$ kubectl create -f MyMovies/kubernetes/db-deployment.yaml
+$ kubectl create -f MyMovies/kubernetes/db-service.yaml
+$ kubectl create -f MyMovies/kubernetes/mvc-deployment.yaml
+$ kubectl create -f MyMovies/kubernetes/mvc-service.yaml
+$ kubectl create -f MyMovies/kubernetes/mvc-ingress.yaml
 ```
 
 ## Verify access to the application
@@ -82,7 +83,7 @@ kubectl create -f MyMovies/kubernetes/mvc-ingress.yaml
 Within a few seconds, the deployments should have launched pods to reflect our wanted scenario, we can inspect this:
 
 ```powershell
-kubectl get all
+$ kubectl get all
 ```
 
 ```powershell
@@ -109,7 +110,7 @@ It is obvious from the above output that deployment mvc is instructed to have tw
 Lets look closer at the pods.
 
 ```powershell
-kubectl get pods -o wide
+$ kubectl get pods -o wide
 ```
 
 We can see that there are two pods with individual internal IP addresses runing the MVC app:
@@ -124,7 +125,7 @@ postgres-68d7cd566c-55tjj   1/1     Running   0          2m40s   10.1.0.13   doc
 If we want to understand how these pods can be available to serve external traffic, lets inspect the ingress:
 
 ```powershell
-kubectl describe ingress mvc-ingress
+$ kubectl describe ingress mvc-ingress
 ```
 
 This reveals that **dev.mymovies.local** is served by one of the two pods on port 5000, and that ssl redirects are enabled and enforced:

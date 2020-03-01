@@ -14,8 +14,8 @@ You can install minikube and kubectl with **Scoop** - a command line installer: 
 
 When Scoop is installed, install minikube and kubectl with:
 ```shell
-scoop install minikube
-scoop install kubectl
+$ scoop install minikube
+$ scoop install kubectl
 ```
 
 ### Install cluster
@@ -92,14 +92,14 @@ Context "<your current context>" modified.
 You can verify that you've updated your current `context` by running:
 
 ```shell
-kubectl config get-contexts
+$ kubectl config get-contexts
 ```
 
 ## Pods and Deployments
 
 A **Pod** (*not container*) is the smallest building-block/worker-unit in Kubernetes, it has a specification of one or more containers and exists for the duration of the containers;
 
-if all the containers stops or terminates, the Pod is stopped.
+If all the containers stops or terminates, the Pod is stopped.
 
 Usually a pod will be part of a **Deployment**; a more controlled or _robust_ way of running Pods.
 
@@ -120,6 +120,7 @@ Just so you know what we're talking about, you can check the objects you've crea
 
 ```bash
 $ kubectl get deployment,replicaset,pod    # NB: no whitespace in the comma-separated list
+$ kubectl get all
 ```
 
 > A ReplicaSet is something which deals with the number of copies of this pod.

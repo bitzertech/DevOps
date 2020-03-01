@@ -11,6 +11,7 @@ Kubernetes (K8s) is an orchestration tool with the following features:
 * Service Discovery
 * Ingress routing and load balancing across replicas
 * Security - with RBAC and network policies
+* Namespaces - separate resources
 
 Overview of a K8s cluster:
 

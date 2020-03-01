@@ -28,12 +28,12 @@ spec:
 Apply the deployment with the command:
 
 ```bash
-kubectl apply -f echoserver-deployment.yaml
+$ kubectl apply -f k8s/echoserver-deployment.yaml
 ```
 
 Verify that the deployment is active:
 ```bash
-kubectl get deployment echoserver -o wide
+$ kubectl get deployment -o wide
 
 NAME         READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                      SELECTOR
 echoserver   1/1     1            1           32m   echoserver   k8s.gcr.io/echoserver:1.4   app=frontend
@@ -62,12 +62,12 @@ spec:
 Apply the service:
 
 ```bash
-kubectl apply -f echoserver-service.yaml
+$ kubectl apply -f k8s/echoserver-service.yaml
 ```
 
 Verify that the service is active:
 ```bash
-kubectl get service echoserver -o wide
+$ kubectl get service -o wide
 
 NAME         TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)
 echoserver   NodePort   10.101.174.60   <none>        8080:30486/TCP
@@ -78,7 +78,7 @@ Pay attention to the ports - 8080 is the internal port, and 30486 is the static 
 
 The cluster ip is the intenal ip address of the service. To get the external address of the node, type:
 ```bash
-kubectl get nodes -o wide
+$ kubectl get nodes -o wide
 
 NAME       STATUS   ROLES    AGE   VERSION   INTERNAL-IP     EXTERNAL-IP
 minikube   Ready    master   26h   v1.17.3   172.17.253.26   <none>
@@ -87,7 +87,7 @@ You now get the node's internal ip and the static port. To verify the access, us
 
 or type (with admin rights):
 ```bash
-minikube service echoserver
+$ minikube service echoserver -n my-namespace
 ```
 which opens the web browser with the correct ip and port.
 
@@ -95,5 +95,5 @@ which opens the web browser with the correct ip and port.
 
 To cleanup deployment and service in one go, type:
 ```bash
-kubectl delete -f k8s    # k8s is the folder containing the yaml files
+$ kubectl delete -f k8s    # k8s is the folder containing the yaml files
 ```

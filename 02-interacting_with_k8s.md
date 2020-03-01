@@ -22,6 +22,8 @@ which opens a nice web page showing all the internals of the cluster.
 
 ## YAML
 
+Yaml is the standard way of specifying what resources you want to run in the cluser.
+
 The following describes a pod via YAML:
 
 ```bash
@@ -63,10 +65,11 @@ Labels are important in kubernetes, it ties everything together:
 * Using multiple labels allows for an N-dimensional grouping of resources
 
 ### A deployment
+A deployment describes how the pod should be deployed in the cluster, how many replicas etc.
 
 ```bash
 apiVersion: apps/v1
-kind: Deployment     # 
+kind: Deployment     # The kind is Deployment
 metadata:
   name: frontend     # Resource is named 'frontend'
 spec:
@@ -88,11 +91,13 @@ spec:
         image: nodeapp
 ```
 
-and the service:
+### Service
+A service allows the pod to become accessible to other pods or to the outside of the cluster.
+
 
 ```bash
 apiVersion: v1
-kind: Service
+kind: Service        # kind is Service
 metadata:
   labels:
     app: nginx       # label for this service
