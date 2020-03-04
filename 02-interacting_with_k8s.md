@@ -2,12 +2,9 @@
 
 There are various ways to interact with kubernetes:
 
-* kubectl - the low level command line tool
-* Dashboard
-* YAML files with resource definitions
-* Kustomize - buildin patch and merge tool
-* Helm - templating tool for semi-large applications
-* Helmfile and Helmsman - helm chart management
+* kubectl - the low level command line tool.
+* Dashboard.
+* YAML files with resource definitions.
 
 ## Dashboard
 
@@ -117,8 +114,7 @@ A few words on service type:
 * LoadBalancer: Exposes the service externally using a cloud provider’s load balancer.
 * ExternalName: Maps the service to the contents of an external name like: foo.bar.com.
 
-
-To sum up:
+## Wrap up
 
 ![Namespaces](Images/k8s-manage-depl.png "Namespaces")
 

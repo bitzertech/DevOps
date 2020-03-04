@@ -1,4 +1,4 @@
-# Exercise 1
+# Exercise 1: Basic kubernetes commands
 
 ## Install kubernetes cluster
 
@@ -61,7 +61,7 @@ minikube   Ready    master   27h   v1.17.3   172.17.253.26   <none>        Build
 
 ## Namespaces
 
-Namespaces are the default way for kubernetes to separate resources.
+Namespaces are the default way for kubernetes to separate resources. If you don't specify any namespace then everything will be deployed in the **default** namespace.
 
 ### Create a namespace (optional)
 

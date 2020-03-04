@@ -1,4 +1,4 @@
-# Create deployment and service YAML
+# Exercise 2: Create deployment and service YAML
 
 ## Deployment
 The deployment would be something like this (k8s/echoserver-deployment.yaml):
@@ -76,7 +76,7 @@ Pay attention to the ports - 8080 is the internal port, and 30486 is the static 
 
 ## Verify access
 
-The cluster ip is the intenal ip address of the service. To get the external address of the node, type:
+The cluster ip is the internal ip address of the service. To get the external address of the node, type:
 ```bash
 kubectl get nodes -o wide
 

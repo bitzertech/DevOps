@@ -17,6 +17,15 @@ Overview of a K8s cluster:
 
 ![K8s cluster](https://d33wubrfki0l68.cloudfront.net/7016517375d10c702489167e704dcb99e570df85/7bb53/images/docs/components-of-kubernetes.png "Kubernetes cluster")
 
+* kube-api-server: Main frontend api server.
+* etcd: key-value backend store for all cluster data.
+* kube-scheduler: Assigns a node for newly created pods.
+* kube-controller manager: Manages node lifetime, replications, endpoints etc.
+* cloud-controller manager: A manager towards the the specific cloud provider like GKE or AWS.
+* kubelet: Makes sure containers are running in a pod.
+* kube-proxy: Manages network rules to allow traffic to/from a pod.
+* container runtime: Runs the actual container.
+
 Ref: https://kubernetes.io/docs/concepts/overview/components/
 
 ## K8s building bricks

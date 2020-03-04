@@ -14,3 +14,5 @@ It is recommended to follow the sections in order.
 * [4 - Introduction to docker and K8s](04-deploying-mymovies.md)
 * [5 - Exercise 3](05-exercise-3.md)
 
+
+This [Cheatsheet](Cheatsheet.md) contains the most common kubectl commands.
